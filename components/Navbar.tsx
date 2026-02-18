@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-/* Added LayoutDashboard to the import list from lucide-react */
 import { 
   Menu, User, HeartPulse, 
-  Bell, Moon, Sun, Search, LayoutDashboard
+  Bell, Moon, Sun, Search, LayoutDashboard, Zap
 } from 'lucide-react';
 import { StorageService } from '../services/storageService';
 
@@ -43,75 +41,68 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
   }, []);
 
   return (
-    <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 sticky top-0 z-[100] transition-colors h-20 px-4 sm:px-8">
+    <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[100] transition-all h-20 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto h-full flex justify-between items-center">
         
-        {/* Left Side: Mobile Menu & Breadcrumbs/Title */}
-        <div className="flex items-center gap-6">
+        {/* Left Side: Menu Toggle & Title */}
+        <div className="flex items-center gap-4 sm:gap-6">
           <button 
             onClick={onMenuToggle}
-            className="p-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl border border-gray-100 dark:border-gray-700 lg:hidden"
+            className="group flex items-center justify-center p-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl border-2 border-gray-900 dark:border-gray-100 hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-all active:scale-95 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
+            aria-label="Toggle Sidebar"
           >
-            <Menu size={20} />
+            <Menu size={24} strokeWidth={3} />
           </button>
           
-          <div className="hidden sm:block">
-            <h2 className="text-xs font-black uppercase tracking-widest text-gray-400">
-              Protocol / <span className="text-gray-900 dark:text-white">
-                {location.pathname === '/' ? 'Terminal Home' : location.pathname.substring(1).replace('-', ' ')}
-              </span>
+          <div className="flex flex-col">
+            <h2 className="text-[10px] font-black uppercase tracking-widest text-gray-400 leading-none mb-1">
+              Terminal / <span className="text-red-600">Active</span>
             </h2>
+            <h1 className="text-lg font-black text-gray-900 dark:text-white tracking-tighter leading-none">
+              {location.pathname === '/' ? 'Protocol Home' : location.pathname.substring(1).split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+            </h1>
           </div>
         </div>
 
+        {/* Center: Emergency Network Status (Desktop) */}
+        <div className="hidden lg:flex items-center gap-3 px-4 py-2 bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 rounded-2xl animate-pulse">
+          <Zap size={14} className="text-red-600" fill="currentColor" />
+          <span className="text-[10px] font-black uppercase tracking-widest text-red-600">Critical Emergency Network Active</span>
+        </div>
+
         {/* Right Side: Global Tools */}
-        <div className="flex items-center gap-3 sm:gap-6">
-          <div className="hidden md:flex items-center bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl px-4 py-2 group focus-within:border-red-500 transition-all">
-            <Search size={16} className="text-gray-400 group-focus-within:text-red-500" />
-            <input 
-              type="text" 
-              placeholder="System Search..." 
-              className="bg-transparent border-none outline-none px-3 text-xs font-bold w-40 dark:text-white"
-            />
-          </div>
-
-          <div className="h-8 w-px bg-gray-100 dark:bg-gray-800 mx-2 hidden sm:block"></div>
-
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
-              className="p-3 text-gray-500 hover:text-red-600 transition-colors bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700"
-              title="Switch Appearance"
+        <div className="flex items-center gap-2 sm:gap-4">
+          <button 
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
+            className="p-3 text-gray-600 dark:text-gray-300 hover:text-red-600 transition-colors bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"
+            title="Appearance Toggle"
+          >
+            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+          </button>
+          
+          {currentUser && (
+            <Link 
+              to="/dashboard" 
+              className="p-3 text-gray-600 dark:text-gray-300 hover:text-red-600 relative bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"
             >
-              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-            </button>
-            
-            {currentUser && (
-              <Link 
-                to="/dashboard" 
-                className="p-3 text-gray-500 hover:text-red-600 relative bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700"
-                title="Notifications"
-              >
-                <Bell size={18} />
-                {unreadCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-red-600 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">
-                    {unreadCount}
-                  </span>
-                )}
-              </Link>
-            )}
+              <Bell size={20} />
+              {unreadCount > 0 && (
+                <span className="absolute top-1 right-1 w-4 h-4 bg-red-600 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">
+                  {unreadCount}
+                </span>
+              )}
+            </Link>
+          )}
 
-            {!currentUser ? (
-              <Link to="/login" className="flex items-center gap-3 px-5 py-3 bg-red-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-red-100 dark:shadow-none hover:bg-red-700 transition-all">
-                <User size={16} /> <span className="hidden sm:inline">Access Portal</span>
-              </Link>
-            ) : (
-              <Link to="/dashboard" className="hidden sm:flex items-center gap-3 px-5 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-100 dark:border-gray-700 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-50 transition-all">
-                {/* Fixed LayoutDashboard reference by adding it to imports */}
-                <LayoutDashboard size={16} /> Console
-              </Link>
-            )}
-          </div>
+          {!currentUser ? (
+            <Link to="/login" className="flex items-center gap-2 px-4 sm:px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-black text-xs uppercase tracking-widest hover:scale-[1.02] transition-all border-2 border-gray-900 dark:border-white active:scale-95">
+              <User size={16} strokeWidth={3} /> <span className="hidden sm:inline">Access Portal</span>
+            </Link>
+          ) : (
+            <Link to="/dashboard" className="hidden sm:flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-gray-50 transition-all">
+              <LayoutDashboard size={16} /> Dashboard
+            </Link>
+          )}
         </div>
       </div>
     </header>

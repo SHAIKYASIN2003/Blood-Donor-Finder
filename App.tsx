@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -16,7 +16,21 @@ import Admin from './pages/Admin';
 import MedicalRecords from './pages/MedicalRecords';
 
 const App: React.FC = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Default to open on desktop (lg), closed on mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
+
+  // Close sidebar automatically on window resize to mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <Router>
@@ -28,8 +42,8 @@ const App: React.FC = () => {
         />
 
         {/* Main Application Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 lg:ml-72 transition-all duration-500">
-          <Navbar onMenuToggle={() => setIsSidebarOpen(true)} />
+        <div className={`flex-1 flex flex-col min-w-0 transition-all duration-500 ${isSidebarOpen ? 'lg:ml-72' : 'lg:ml-0'}`}>
+          <Navbar onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
           
           <main className="flex-grow">
             <Routes>
