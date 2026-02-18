@@ -1,0 +1,7 @@
+{
+  "name": "Blood Donor Finder",
+  "description": "A modern, responsive platform connecting blood donors with patients during medical emergencies. Features donor registration, real-time search, emergency request management, and an admin dashboard.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
