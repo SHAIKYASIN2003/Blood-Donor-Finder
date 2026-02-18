@@ -1,7 +1,8 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { Donor, EmergencyRequest, BloodGroup } from "../types";
+import { Donor, EmergencyRequest } from "../types";
 
+// Always initialize the client with the apiKey in a named parameter object.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const GeminiService = {
@@ -10,6 +11,7 @@ export const GeminiService = {
    */
   async analyzeEmergency(request: EmergencyRequest, donors: Donor[]) {
     try {
+      // Using gemini-3-flash-preview for specialized text analysis tasks.
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `
@@ -35,6 +37,7 @@ export const GeminiService = {
           }
         }
       });
+      // Correctly access text as a property, not a method.
       return JSON.parse(response.text || '{}');
     } catch (error) {
       console.error("Emergency Analysis failed", error);
@@ -83,6 +86,7 @@ export const GeminiService = {
           }
         }
       });
+      // Correctly access text as a property, not a method.
       return JSON.parse(response.text || '{}');
     } catch (error) {
       console.error("Predictive AI failed", error);

@@ -63,6 +63,7 @@ const Register: React.FC = () => {
 
     setTimeout(() => {
       try {
+        // Fix: Added responseRate property which was missing and causing a type error.
         const newDonor: Donor = {
           ...formData,
           id: Math.random().toString(36).substr(2, 9),
@@ -70,6 +71,7 @@ const Register: React.FC = () => {
           role: 'donor',
           isVerified: false,
           reliabilityScore: 85,
+          responseRate: 100,
           lastDonation: '',
           nextEligibleDate: '',
           totalDonations: 0,
