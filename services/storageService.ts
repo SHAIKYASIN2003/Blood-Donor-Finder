@@ -82,6 +82,45 @@ const seedInitialData = () => {
         phone: '555-9000',
         verified: true,
         role: 'hospital'
+      },
+      {
+        id: 'hosp_2',
+        name: 'St. Mary\'s Medical Center',
+        email: 'contact@stmarys.org',
+        password: 'hospitaladmin',
+        location: 'Hayes Valley, SF',
+        lat: 37.7740,
+        lng: -122.4312,
+        contactPerson: 'Nurse James Miller',
+        phone: '555-8200',
+        verified: true,
+        role: 'hospital'
+      },
+      {
+        id: 'hosp_3',
+        name: 'UCSF Helen Diller Center',
+        email: 'info@ucsf.edu',
+        password: 'hospitaladmin',
+        location: 'Mission Bay, SF',
+        lat: 37.7679,
+        lng: -122.3923,
+        contactPerson: 'Protocol Officer Elena',
+        phone: '555-1234',
+        verified: true,
+        role: 'hospital'
+      },
+      {
+        id: 'hosp_4',
+        name: 'Zuckerberg General Hospital',
+        email: 'admin@zsgh.org',
+        password: 'hospitaladmin',
+        location: 'Potrero Hill, SF',
+        lat: 37.7558,
+        lng: -122.4050,
+        contactPerson: 'Emergency Desk',
+        phone: '555-4444',
+        verified: false,
+        role: 'hospital'
       }
     ];
     localStorage.setItem(KEYS.HOSPITALS, JSON.stringify(initialHospitals));
@@ -222,7 +261,6 @@ export const StorageService = {
   getTheme: () => localStorage.getItem(KEYS.THEME) || 'light',
   setTheme: (t: string) => localStorage.setItem(KEYS.THEME, t),
 
-  // Added getLanguage and setLanguage to fix Dashboard.tsx error
   getLanguage: (): string => localStorage.getItem(KEYS.LANGUAGE) || 'en',
   setLanguage: (l: string) => localStorage.setItem(KEYS.LANGUAGE, l),
 

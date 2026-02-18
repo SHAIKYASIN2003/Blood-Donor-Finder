@@ -5,7 +5,7 @@ import {
   Home, Search, AlertCircle, FileText, 
   LayoutDashboard, ShieldAlert, LogOut, 
   Settings, HeartPulse, ChevronRight,
-  Activity, Award
+  Activity, Award, Building2
 } from 'lucide-react';
 import { StorageService } from '../services/storageService';
 
@@ -21,6 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const menuItems = [
     { name: 'Home', path: '/', icon: Home },
     { name: 'Find Donors', path: '/search', icon: Search },
+    { name: 'Find Hospitals', path: '/find-hospitals', icon: Building2 },
     { name: 'Emergency', path: '/emergency', icon: AlertCircle, color: 'text-red-600' },
     { name: 'Medical Records', path: '/medical-records', icon: FileText },
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },

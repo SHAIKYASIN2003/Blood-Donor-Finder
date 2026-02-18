@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Search from './pages/Search';
+import HospitalSearch from './pages/HospitalSearch';
 import Emergency from './pages/Emergency';
 import Dashboard from './pages/Dashboard';
 import HospitalDashboard from './pages/HospitalDashboard';
@@ -38,6 +39,7 @@ const App: React.FC = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/hospital" element={<HospitalDashboard />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/find-hospitals" element={<HospitalSearch />} />
               <Route path="/emergency" element={<Emergency />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/medical-records" element={<MedicalRecords />} />
